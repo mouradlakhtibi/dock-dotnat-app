@@ -78,3 +78,35 @@ $ git add global.json
 $ git commit -m "Use 6.0 SDK"
 $ git push
 ```
+Now, add the credentials for accessing the registry server to your GitHub project. Click the project's Settings link in the GitHub web interface and open the Environments tab. Then click New Environment and name it ImageRegistry. Add two secrets named REGISTRY_USER and REGISTRY_PASSWORD. These contain the credentials used to access the registry (Figure 1). After you add these values, verify that they work by using them with the podman login or docker login command.
+Now you're ready to add the workflow. Create a file at:  .github/workflows/deploy-image.yml and add the following content.
+
+```
+name: Deploy Image
+
+on:
+  push:
+	branches: [ "main" ]
+
+env:
+  DOTNET_PROJECT: dock-dotnet-app
+  REGISTRY: docker.io
+  IMAGE_NAME: mouradl/dotnet-app:0.2
+
+jobs:
+  deploy:
+
+	environment: ImageRegistry
+	runs-on: ubuntu-latest
+
+	steps:
+	- uses: actions/checkout@v3
+	- name: Install .NET
+  	uses: actions/setup-dotnet@v2
+	- name: Install dotnet-build-image
+  	run: dotnet tool install -g dotnet-build-image
+	- name: Log in to Image registry
+  	run: echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login $REGISTRY -u "${{ secrets.REGISTRY_USER }}" --password-stdin
+	- name: Build and push image
+  	run: dotnet build-image --push "$DOTNET_PROJECT" -t "$REGISTRY/$IMAGE_NAME"
+```
