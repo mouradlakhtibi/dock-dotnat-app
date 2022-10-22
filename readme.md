@@ -110,3 +110,6 @@ jobs:
 	- name: Build and push image
   	run: dotnet build-image --push "$DOTNET_PROJECT" -t "$REGISTRY/$IMAGE_NAME"
 ```
+GitHub will trigger the workflow. You can follow progress under the Actions tab in the GitHub web interface.
+
+When you make changes to the web application and commit them to the main branch, it triggers the workflow that creates a new image and pushes it to the repository
