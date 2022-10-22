@@ -29,3 +29,7 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+    - name: Log in to Image registry
+  	  run: echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login $REGISTRY -u "${{ secrets.REGISTRY_USER }}" --password-stdin
+	  - name:  push image
+  	  run: docker push  "$IMAGE_NAME"  
