@@ -27,7 +27,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: $ dotnet tool install -g dotnet-build-image && dotnet build-image -t "$IMAGE_NAME" --no-restore
+      run: dotnet tool install -g dotnet-build-image && dotnet build-image -t "$IMAGE_NAME" --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: Log in to Image registry
