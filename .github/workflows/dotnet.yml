@@ -27,10 +27,10 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet tool install -g dotnet-build-image && dotnet build-image -t "$IMAGE_NAME" 
+      run: dotnet tool install -g dotnet-build-image && dotnet build-image -t mouradl/dotapp:0.2 
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: Log in to Image registry
       run: echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login --username "${{ secrets.REGISTRY_USER }}" --password-stdin
     - name:  push image
-      run: docker push  localhost/"$IMAGE_NAME"  
+      run: docker push  mouradl/dotapp:0.2 
