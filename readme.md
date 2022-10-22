@@ -25,7 +25,7 @@ $ sudo apt install dotnet-sdk-6.0
 ```
 ### Step 4 – Check .NET Core Version
 ```
-$dotnet --version
+$ dotnet --version
 ```
 now that we install the prerquirements , we will see how to build an image without using a dockerfile using dotnet-build-image tool
 
@@ -49,11 +49,32 @@ Next, build an image from the default web template application:
 ```
 $ dotnet new web -o dock-dotnet-app
 $ cd dock-ditnet-app
-$ dotnet build-image -t mywebapp
+$ dotnet build-image -t mouradl/dotnet-app:0.1
 ```
 You will see the build in the terminal. Once the build is finished, run the image:
 ```
-$ docker  run -d  -p 8080:8080 mywebapp
+$ docker  run -d  -p 8080:8080 mouradl/dotnet-app:0.1
 ```
 Open the web application in your browser at: http://localhost:8080
+than you could push it to your dockerhub to share it or reuse it elsewhere:
+```
+docker push  mouradl/dotnet-app:0.1
+```
+if you want to generate a dockerfile for version control or to more customs you can pass param when building :
+```
+dotnet build-image --as-dockerfile Dockerfile -t mouradl/dotnet-app:0.1
+```
 
+## Using dotnet build-image in a GitHub workflow
+This section creates a GitHub repository and uses dotnet build-image in a GitHub workflow to set up continuous delivery (CI/CD) of a .NET application as a container image.
+
+As my image registry, I use my free account at Dockerhub , other registries work too
+
+Add a global.json file that captures the SDK version you'd like contributors and CI to use
+
+```
+$ dotnet new globaljson --sdk-version 6.0.100 --roll-forward latestFeature
+$ git add global.json
+$ git commit -m "Use 6.0 SDK"
+$ git push
+```

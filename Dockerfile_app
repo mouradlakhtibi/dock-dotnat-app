@@ -1,0 +1,14 @@
+# Publish application
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
+USER 0
+WORKDIR /src
+COPY . ./
+RUN --mount=type=cache,id=nuget,target=${HOME}/.nuget/packages dotnet restore .
+RUN --mount=type=cache,id=nuget,target=${HOME}/.nuget/packages dotnet publish --no-restore -c Release -o /out .
+
+# Build application image
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
+COPY --from=build-env /out /app
+ENV ASPNETCORE_URLS=http://*:8080
+WORKDIR /app
+CMD ["dotnet", "/app/web.dll"]
