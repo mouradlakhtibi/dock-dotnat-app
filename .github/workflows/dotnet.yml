@@ -22,8 +22,8 @@ jobs:
       - name: Install .NET
       - uses: actions/setup-dotnet@v2
       - name: Install dotnet-build-image
-  	run: dotnet tool install -g dotnet-build-image
+  	    run: dotnet tool install -g dotnet-build-image
       - name: Log in to Image registry
-  	run: echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login $REGISTRY -u "${{ secrets.REGISTRY_USER }}" --password-stdin
+  	    run: echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login $REGISTRY -u "${{ secrets.REGISTRY_USER }}" --password-stdin
       - name: Build and push image
-  	run: dotnet build-image --push "$DOTNET_PROJECT" -t "$REGISTRY/$IMAGE_NAME"  
+  	    run: dotnet build-image --push "$DOTNET_PROJECT" -t "$REGISTRY/$IMAGE_NAME"  
