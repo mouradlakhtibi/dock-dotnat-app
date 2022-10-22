@@ -9,24 +9,24 @@ The Ubuntu 22.04 users can only install .NET Core 6.0. It doesn’t support .NET
 The developers should install the .NET Core SDK on their system and the staging or production server needs the .NET Core runtime only. This tutorial walks through installing the .NET core on Ubuntu 22.04 LTS Linux system. You can install .NET Core SDK or set up the runtime environment on your system.
 ### Step 1 – Enable Microsoft PPA
 Open a terminal on your Ubuntu system and configure Microsoft PPA by running the following commands:
-'''
+```
 $ wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb
 $ sudo dpkg -i packages-microsoft-prod.deb
-'''
+```
 Above commands will create a /etc/apt/sources.list.d/microsoft-prod.list file in your system with the required configuration.
 ### Step 2 – Installing .NET Core SDK on Ubuntu
 .NET Core SDK is the Software development kit used for developing applications. If you are going to create an application or make changes to an existing application, you will require a .net core SDK package on your system.
 
 To install .NET Core SDK on Ubuntu 22.04 LTS system, execute the following commands:
-'''
+```
 $ sudo apt install apt-transport-https 
 $ sudo apt update 
 $ sudo apt install dotnet-sdk-6.0
-'''
+```
 ### Step 4 – Check .NET Core Version
-'''
+```
 $dotnet --version
-'''
+```
 now that we install the prerquirements , we will see how to build an image without using a dockerfile using dotnet-build-image tool
 
 ## Building an image or Dockerfile with dotnet build-image
@@ -41,19 +41,19 @@ It supports both Podman and Docker to build the image.
 It caches NuGet packages across builds.
 It uses the SDK version from global.json for publishing the application if the file is present.
  to start install the tool from NuGet:
-'''
+```
 $ dotnet tool install -g dotnet-build-image
-'''
+```
 Next, build an image from the default web template application:
 
-'''
+```
 $ dotnet new web -o dock-dotnet-app
 $ cd dock-ditnet-app
 $ dotnet build-image -t mywebapp
-'''
+```
 You will see the build in the terminal. Once the build is finished, run the image:
-'''
+```
 $ docker  run -d  -p 8080:8080 mywebapp
-'''
+```
 Open the web application in your browser at: http://localhost:8080
 
